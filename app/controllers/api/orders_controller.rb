@@ -22,7 +22,7 @@ class Api::OrdersController < ApplicationController
                           prescription_type: line["prescription"]["type"],
                           lens_color: line["prescription"]["lens_color"],
                           left_sph: line["prescription"]["left"]['sph'],
-                          right_sph: line["prescription"]["left"]['sph'] )
+                          right_sph: line["prescription"]["right"]['sph'] )
     end
   end
 end
