@@ -1,4 +1,5 @@
 class Order < ApplicationRecord
+  has_many :lines
   COMPANIES = {
                   "ATLENS": {
                       "rimless-1": 20,
@@ -17,14 +18,23 @@ class Order < ApplicationRecord
                 }
 
   def supplier
-    if line_sku == "rimless-1"
-      "LETHA"
-    elsif line_prescription_right_sph.to_i < -6 || line_prescription_right_sph.to_i > 4 || line_prescription_left_sph.to_i < -6 || line_prescription_left_sph.to_i > 4
-      "LETHA"
-    elsif COMPANIES[:ATLENS][:"#{line_sku}"] < 1
-      "LETHA"
+    result = []
+    lines.each do |line|
+      prescription = Prescription.find_by(line_id: line)
+      if line.sku == "rimless-1"
+        result << "LETHA"
+      elsif prescription.right_sph.to_i < -6 || prescription.right_sph.to_i > 4 || prescription.left_sph.to_i < -6 || prescription.left_sph.to_i > 4
+        result << "LETHA"
+      elsif COMPANIES[:ATLENS][:"#{line.sku}"] < line.quantity.to_i
+        result << "LETHA"
+      else
+        result << "ATLENS"
+      end
+    end
+    if result.include?("LETHA")
+      return "LETHA"
     else
-      "ATLENS"
+      return "ATLENS"
     end
   end
 end

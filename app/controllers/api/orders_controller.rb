@@ -13,13 +13,16 @@ class Api::OrdersController < ApplicationController
   def build_order
     @order = Order.create(
       acetate_id: permitted_params["id"],
-      shipping_country: permitted_params["shipping_country"],
-      line_sku: permitted_params["lines"].first["sku"],
-      line_quantity: permitted_params["lines"].first["quantity"],
-      line_prescription_type: permitted_params["lines"].first["prescription"]["type"],
-      line_prescription_lens_color: permitted_params["lines"].first["prescription"]["lens_color"],
-      line_prescription_left_sph: permitted_params["lines"].first["prescription"]["left"]["SPH"],
-      line_prescription_right_sph: permitted_params["lines"].first["prescription"]["right"]["SPH"],
-      )
+      shipping_country: permitted_params["shipping_country"])
+    permitted_params["lines"].each do |line|
+      @line = Line.create(order_id: @order.id,
+                  sku: line["sku"],
+                  quantity: line["quantity"])
+      Prescription.create(line_id: @line.id,
+                          prescription_type: line["prescription"]["type"],
+                          lens_color: line["prescription"]["lens_color"],
+                          left_sph: line["prescription"]["left"]['sph'],
+                          right_sph: line["prescription"]["left"]['sph'] )
+    end
   end
 end
