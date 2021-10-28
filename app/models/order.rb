@@ -1,21 +1,21 @@
 class Order < ApplicationRecord
   has_many :lines
   COMPANIES = {
-                  "ATLENS": {
-                      "rimless-1": 20,
-                      "metal-frame-1": 200,
-                      "metal-frame-2": 0,
-                      "acetate-frame-1": 1,
-                      "acetate-frame-2": 10
-                  },
-                  "LETHA": {
-                      "rimless-1": 20,
-                      "metal-frame-1": 200,
-                      "metal-frame-2": 200,
-                      "acetate-frame-1": 100,
-                      "acetate-frame-2": 100
-                  }
+                "ATLENS": {
+                    "rimless-1": 20,
+                    "metal-frame-1": 200,
+                    "metal-frame-2": 0,
+                    "acetate-frame-1": 1,
+                    "acetate-frame-2": 10
+                },
+                "LETHA": {
+                    "rimless-1": 20,
+                    "metal-frame-1": 200,
+                    "metal-frame-2": 200,
+                    "acetate-frame-1": 100,
+                    "acetate-frame-2": 100
                 }
+              }
 
   def supplier
     result = []
